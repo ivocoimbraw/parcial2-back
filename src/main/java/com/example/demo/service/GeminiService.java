@@ -26,7 +26,7 @@ public class GeminiService {
     private GeminiPromptService geminiPromptService;
 
     private final String API_KEY = "AIzaSyBZ6SHRSHg61dRNqx68FgCi4aRZwSWGoe4";
-    private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="
+    private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key="
             + API_KEY;
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();

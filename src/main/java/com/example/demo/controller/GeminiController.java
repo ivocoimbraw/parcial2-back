@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,15 +38,21 @@ public class GeminiController {
     }
 
     @GetMapping("/chat")
-    public String chatWithGemini() {
-        return "Hello, I'm Gemini! How can I help you?";
+    public ResponseEntity<String> chatWithGemini() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.valueOf("text/plain; charset=UTF-8"));
+
+        String body = "Hello, I'm Gemini! How can I help you? ññññññ";
+        return new ResponseEntity<>(body, headers, HttpStatus.OK);
     }
 
     @PostMapping(value = "/chat", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String chatWithGemini(
+    public ResponseEntity<String> chatWithGemini(
             @RequestParam("image") MultipartFile image) throws IOException {
-        return geminiService.chatWithGemini(image);
+        String body = geminiService.chatWithGemini(image);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.valueOf("text/plain; charset=UTF-8"));
+        return new ResponseEntity<>(body, headers, HttpStatus.OK);
     }
 
-    
 }

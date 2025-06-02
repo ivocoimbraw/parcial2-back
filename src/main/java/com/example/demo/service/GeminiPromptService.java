@@ -66,7 +66,11 @@ Ejemplos de properties según type:
 Texto (text): { "text": "Texto" }
 Botón (button): { "text": "Botón", "variant": "primary" }
 Campo de texto (textField): {"hint": "Texto de ayuda" }
+table → { rows: 3, columns: 3, headers: ["Column 1","Column 2","Column 3"] }
+checkbox → { label: "Checkbox", value: false }
+dropdownButton → { text: "Select Option", options: ["Option 1", "Option 2", "Option 3"] }
 Ejemplo de salida JSON:
+[
 {
 "id": "d45222d2-cba9-4423-b7f3-8d56cd10ed85",
 "type": "text",
@@ -87,6 +91,7 @@ Ejemplo de salida JSON:
 "y": 0
 }
 }
+]
 Instrucciones importantes:
 Siempre genera única y exclusivamente un JSON válido con esta estructura.
 El campo id debe ser un UUID válido.
