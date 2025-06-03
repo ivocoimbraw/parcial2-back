@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 public class SalaDTO {
     private Integer id;
+    private String name;
     private UserDTO owner;
     private String datosJson;
     private List<UserDTO> users;

@@ -6,6 +6,7 @@ import com.example.demo.user.dto.UserView;
 
 public interface SalaProjection {
     Integer getId();
+    String name();
     UserView getOwner();
     String getDatosJson();
     List<UserView> getUsers();

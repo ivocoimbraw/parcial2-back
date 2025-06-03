@@ -27,6 +27,8 @@ public class Sala {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String name;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "owner_id")
