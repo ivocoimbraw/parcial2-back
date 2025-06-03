@@ -28,13 +28,11 @@ public class SalaService {
     private UserRepository userRepository;
 
     public SalaDTO createSalaDTO(SalaDTO salaDTO) {
-        if (salaDTO.getOwner() == null) {
-            throw new IllegalArgumentException("Owner is required");
-        }
-        User owner = new User(salaDTO.getOwner().getId());
+        User owner = getUserAuthenticated();
 
         Sala sala = new Sala();
         sala.setOwner(owner);
+        sala.setName(salaDTO.getName());
         sala.setDatosJson(salaDTO.getDatosJson());
         salaRepository.save(sala);
         return salaDTO;
@@ -54,6 +52,13 @@ public class SalaService {
         User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
         return salaRepository.findByOwner(user);
     }
+
+    private User getUserAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+        return user;
+    } 
 
     public SalaProjection findSalabyId(Integer id) {
         return salaRepository
