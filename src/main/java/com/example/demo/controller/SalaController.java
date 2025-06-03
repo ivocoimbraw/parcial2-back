@@ -23,8 +23,6 @@ import com.example.demo.service.SalaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -55,21 +53,25 @@ public class SalaController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Actualiza el Json de una Sala")
     public ResponseEntity<SalaDTO> updateSala(@RequestBody SalaUpdateDTO salaUpdateDTO, @PathVariable Integer id) {
         return ResponseEntity.ok(salaService.updateSalaDTO(salaUpdateDTO));
     }
 
     @GetMapping
+    @Operation(summary = "Devuelve las salas del usuario")
     public ResponseEntity<List<SalaBasicProjection>> findAllSalas() {
         return ResponseEntity.ok(salaService.findAllSalas());
     }
-
+    
     @GetMapping("/{id}")
+    @Operation(summary = "Devuelve detalles de una sala")
     public ResponseEntity<SalaProjection> findSalaById(@PathVariable Integer id) {
         return ResponseEntity.ok(salaService.findSalabyId(id));
     }
-
+    
     @PostMapping("/invite")
+    @Operation(summary = "Invita un usuario (email) a una sala")
     public ResponseEntity<SalaProjection> inviteUser(@RequestParam Integer id, @RequestParam String username) {
         return ResponseEntity.ok(salaService.inviteUser(id, username));
     }

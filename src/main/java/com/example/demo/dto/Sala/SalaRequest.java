@@ -1,7 +1,5 @@
 package com.example.demo.dto.Sala;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Data;
 

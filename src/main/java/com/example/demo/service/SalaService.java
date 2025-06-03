@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ import com.example.demo.user.repository.UserRepository;
 
 @Service
 public class SalaService {
-    
+
     @Autowired
     private SalaRepository salaRepository;
 
@@ -55,23 +56,38 @@ public class SalaService {
 
     private User getUserAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+
+        if (authentication == null || !authentication.isAuthenticated()
+                || authentication instanceof AnonymousAuthenticationToken) {
+            throw new IllegalArgumentException("Usuario no autenticado");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (!(principal instanceof UserDetails userDetails)) {
+            throw new IllegalArgumentException("No se pudo obtener el usuario autenticado");
+        }
+
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Revisa tu autenticación"));
         return user;
-    } 
+    }
 
     public SalaProjection findSalabyId(Integer id) {
         return salaRepository
-            .findProjectedById(id)
-            .orElseThrow(() -> new IllegalArgumentException("No existe la sala"));
+                .findProjectedById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No existe la sala"));
     }
 
     public SalaProjection inviteUser(Integer salaId, String username) {
-        Sala sala = salaRepository.findByIdWithUsers(salaId).orElseThrow(() -> new IllegalArgumentException("No existe la sala"));
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new IllegalArgumentException("No existe el usuario"));
+        Sala sala = salaRepository.findByIdWithUsers(salaId)
+                .orElseThrow(() -> new IllegalArgumentException("No existe la sala"));
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new IllegalArgumentException("No existe el usuario"));
         sala.getUsers().add(user);
         salaRepository.save(sala);
-        return salaRepository.findProjectedById(salaId).orElseThrow(() -> new IllegalArgumentException("No existe la sala"));
+        return salaRepository.findProjectedById(salaId)
+                .orElseThrow(() -> new IllegalArgumentException("No existe la sala"));
     }
 
     private SalaDTO salaDTO(Sala sala) {
