@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,26 @@ public class SalaService {
     public SalaDTO createSalaDTO(SalaDTO salaDTO) {
         User owner = getUserAuthenticated();
 
+     
+
         Sala sala = new Sala();
         sala.setOwner(owner);
         sala.setName(salaDTO.getName());
         sala.setDatosJson(salaDTO.getDatosJson());
-        salaRepository.save(sala);
-        return salaDTO;
+        // salaRepository.save(sala);
+        Sala savedSala = salaRepository.save(sala);
+
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy - 'Hrs:'HH:mm");
+
+        SalaDTO result = SalaDTO.builder()
+        .id(savedSala.getId())
+        .name(savedSala.getName())    
+        .datosJson(savedSala.getDatosJson())
+        .users(null)  
+        .createdAt(savedSala.getCreatedAt().format(formatter))
+        .build();
+ 
+        return result;
     }
 
     public SalaDTO updateSalaDTO(SalaUpdateDTO salaUpdateDTO) {

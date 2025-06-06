@@ -1,5 +1,6 @@
 package com.example.demo.dto.Sala;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Builder;
@@ -13,4 +14,5 @@ public class SalaDTO {
     private UserDTO owner;
     private String datosJson;
     private List<UserDTO> users;
+    private String createdAt;
 }
