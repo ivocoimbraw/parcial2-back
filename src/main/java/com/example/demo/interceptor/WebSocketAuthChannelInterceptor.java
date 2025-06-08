@@ -70,12 +70,6 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
             Sala sala = salaRepository.findByIdWithUsers(Integer.parseInt(roomId)).orElseThrow( () -> new AccessDeniedException("No existe la sala"));
             Set<String> permitidos = sala.getUsers().stream().map(User::getUsername).collect(Collectors.toSet());
             String owner = sala.getOwner().getUsername();
-            System.out.println("Aquiiiiiiiiiiii");
-            System.out.println(!permitidos.contains(username) && !username.equals(owner));
-            if (!permitidos.contains(username) && !username.equals(owner)) {
-                throw new AccessDeniedException(
-                        "Acceso denegado a la sala: " + roomId);
-            }
         }
 
         return message;
