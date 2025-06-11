@@ -25,7 +25,7 @@ public class GeminiService {
     @Autowired
     private GeminiPromptService geminiPromptService;
 
-    private final String API_KEY = "AIzaSyBZ6SHRSHg61dRNqx68FgCi4aRZwSWGoe4";
+    private final String API_KEY = "AIzaSyC1kSURiYW_xxWM0kat5P3gsqxuiYbZuiM";
     private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key="
             + API_KEY;
     private final RestTemplate restTemplate = new RestTemplate();
