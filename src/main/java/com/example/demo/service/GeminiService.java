@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,7 +26,8 @@ public class GeminiService {
     @Autowired
     private GeminiPromptService geminiPromptService;
 
-    private final String API_KEY = "AIzaSyC1kSURiYW_xxWM0kat5P3gsqxuiYbZuiM";
+    @Value("${gemini.api.key}")
+    private String API_KEY;
     private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key="
             + API_KEY;
     private final RestTemplate restTemplate = new RestTemplate();

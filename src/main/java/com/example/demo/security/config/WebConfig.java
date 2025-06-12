@@ -13,11 +13,10 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addCorsMappings(CorsRegistry registry) {
 
 		registry.addMapping("/**")
-			.allowedOrigins("hhttps://front-segparcial.vercel.app")
+			.allowedOrigins("*")
 			.allowedMethods("POST", "GET", "PUT", "DELETE")
 			.allowedHeaders("*")
 			.exposedHeaders("header1", "header2")
-			.allowCredentials(true)
 			.maxAge(3600);
 	}
 
