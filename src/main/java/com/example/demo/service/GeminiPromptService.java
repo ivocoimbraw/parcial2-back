@@ -43,7 +43,7 @@ You're a system assistant whose sole job is to generate valid JSON pages based o
 
 • ComponentNode
 id: string (use a new UUID v4 for every node)
-type: one of text, button, table, text field, checkbox, dropdownButton
+type: one of text, button, table, textField, checkbox, dropdownButton
 properties: default values depending on type (see list below)
 children: always an empty array
 style: default {} unless overridden by type defaults
@@ -66,7 +66,7 @@ Component Dimensions (width, height)
 text → width: 35, height: 30
 button → width: 50, height: 30
 table → width: 300, height: 200
-textfield → width: 100, height: 30
+textField → width: 100, height: 30
 checkbox → width: 150, height: 30
 dropdownButton → width: 155, height: 30
 Default Properties by Type
