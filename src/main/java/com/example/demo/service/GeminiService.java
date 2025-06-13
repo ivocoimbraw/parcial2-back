@@ -28,10 +28,14 @@ public class GeminiService {
 
     @Value("${gemini.api.key}")
     private String API_KEY;
-    private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key="
-            + API_KEY;
+    
+    private final String BASE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private String getApiUrl() {
+        return BASE_API_URL + "?key=" + API_KEY;
+    }
 
     public AngularComponentResponse chatWithGemini(String userPrompt) {
         HttpHeaders headers = new HttpHeaders();
@@ -46,7 +50,8 @@ public class GeminiService {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(messageContent, headers);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(API_URL, entity, String.class);
+        // Usar el método helper para obtener la URL completa
+        ResponseEntity<String> response = restTemplate.postForEntity(getApiUrl(), entity, String.class);
 
         try {
             JsonNode root = objectMapper.readTree(response.getBody());
@@ -91,9 +96,9 @@ public class GeminiService {
         // Estructura completa
         messageContent.put("contents", new Map[] { Map.of("parts", parts.toArray()) });
 
-        // Enviar la solicitud
+        // Enviar la solicitud - Usar el método helper
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(messageContent, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(API_URL, entity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(getApiUrl(), entity, String.class);
 
         // Procesar la respuesta
         try {
@@ -108,5 +113,4 @@ public class GeminiService {
             return null;
         }
     }
-
 }
